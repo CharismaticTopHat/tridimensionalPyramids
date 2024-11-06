@@ -70,9 +70,7 @@ class OpMat:
         
     def rotate(self, theta, x, y, z):
         radians = math.radians(theta)
-        P1 = self.points[0]
-        P2 = self.points[2]
-        V = [P2[0]-P1[0], P2[1]-P1[1], P2[2]-P1[2]]
+        V = [x,y,z]
         Vdelta = math.sqrt(pow(V[0],2)+pow(V[1],2)+pow(V[2],2))
         a = V[0]/Vdelta
         b = V[1]/Vdelta

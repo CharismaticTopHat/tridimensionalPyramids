@@ -128,8 +128,8 @@ while not done:
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     Axis()
-    display1()
-    #display2()
+    #display1()
+    display2()
     
     if (deg < 360.0):
         deg += delta_deg
