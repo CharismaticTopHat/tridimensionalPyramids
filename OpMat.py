@@ -24,16 +24,29 @@ class OpMat:
         self.stack = []
         
     def loadId(self):
+        if self.stack:
+            self.A = self.stack[-1].copy()  
+        else:
+            self.A = np.identity(4)
 
 
     def translate(self, tx, ty, tz):
-
+        self.T[0][3] = tx
+        self.T[1][3] = ty
+        self.T[2][3] = tz
+        self.M = np.matmul(self.M, self.T)
+        
         
     def scale(self, sx, sy, sz):
-
+        self.E[0][3] = sx
+        self.E[1][3] = sy
+        self.E[2][3] = sz
+        self.M = np.matmul(self.M, self.E)
         
     def rotateZ(self, deg):
-
+        radians = math.radians(deg)
+        self.R[0][0] =  math.cos(radians)
+        
         
     def rotateX(self, deg):
 
