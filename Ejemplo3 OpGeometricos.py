@@ -93,6 +93,9 @@ done = False
 def display1():
     global deg
     op3D.push()
+    #op3D.rotateX(180)
+    op3D.rotateY(180)
+    #op3D.rotateZ(180)
     op3D.rotate(deg,1.0,1.0,1.0)
     op3D.translate(2.0,0.0,0.0)
     op3D.push()

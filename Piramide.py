@@ -18,10 +18,7 @@ class Piramide:
         #Se inicializa las coordenadas de los vertices del cubo
         self.points = np.array([[1.0,0.0,1.0,1.0], [1.0,0.0,-1.0,1.0], [-1.0,0.0,-1.0,1.0], [-1.0,0.0,1.0,1.0], [0.0,3.0,0.0,1.0]])
         self.op3D = op
-        self.dir = []
-        self.dir.append(0)
-        self.dir.append(0)
-        self.dir.append(0)
+        self.dir = [0, 0, 0]
         
     def update(self):
         self.dir[0] = 0
@@ -53,8 +50,7 @@ class Piramide:
         glEnd()    
         
     def render(self):
-        pointsR = self.points.copy()
-        self.op3D.mult_Points(pointsR)
+        pointsR = self.op3D.mult_Points(self.points)
         glColor3f(1.0, 1.0, 1.0)
 
         glBegin(GL_QUADS)
