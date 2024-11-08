@@ -69,53 +69,35 @@ class OpMat:
         self.M = np.matmul(self.M, self.R)
         
     def rotate(self, theta, x, y, z):
-        radians = math.radians(theta)
-        V = [x,y,z]
-        Vdelta = math.sqrt(pow(V[0],2)+pow(V[1],2)+pow(V[2],2))
-        a = V[0]/Vdelta
-        b = V[1]/Vdelta
-        c = V[2]/Vdelta
-        d = math.sqrt(pow(b,2)+pow(c,2))
+        if x == 1 and y ==0 and z == 0:
+            self.rotateX(theta)
+        elif x == 0 and y == 1 and z == 0:
+            self.rotateY(theta)
+        elif x == 0 and y == 0 and z == 1:
+            self.rotateZ(theta)
+        else:
+            radians = math.radians(theta)
+            magnitude = math.sqrt(((x**2)+(y**2)+(z**2)))
+            a = x/magnitude
+            b = y/magnitude
+            c = z/magnitude
+            d = math.sqrt(((b**2)+(c**2)))
+            
+            cos_theta = math.cos(radians)
+            sin_theta = math.sin(radians)
 
-        Rx = [
-            [1, 0, 0, 0],
-            [0, c / d, -b / d, 0],
-            [0, b / d, c / d, 0],
-            [0, 0, 0, 1]
-        ]
-        self.M = np.matmul(self.M, Rx)
-
-        Ry = [
-            [d, 0, -a, 0],
-            [0, 1, 0, 0],
-            [a, 0, d, 0],
-            [0, 0, 0, 1]
-        ]
-        self.M = np.matmul(self.M, Ry)
-
-        Rz = [
-            [math.cos(radians), -math.sin(radians), 0, 0],
-            [math.sin(radians), math.cos(radians), 0, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 1]
-        ]
-        self.M = np.matmul(self.M, Rz)
-
-        Ry_inv = [
-            [d, 0, a, 0],
-            [0, 1, 0, 0],
-            [-a, 0, d, 0],
-            [0, 0, 0, 1]
-        ]
-        self.M = np.matmul(self.M, Ry_inv)
-
-        Rx_inv = [
-            [1, 0, 0, 0],
-            [0, c / d, b / d, 0],
-            [0, -b / d, c / d, 0],
-            [0, 0, 0, 1]
-        ]
-        self.M = np.matmul(self.M, Rx_inv)
+            a_2 = a*a
+            b_2 = b*b
+            c_2 = c*c
+            d_2 = d*d
+            
+            self.M = [[((d_2*cos_theta)+a_2), (b*a*(-cos_theta+1)-(c*sin_theta)), (b*sin_theta+(c*a)*(-cos_theta+1)), 0],
+                      [((c*sin_theta)-((b*a)*(cos_theta))+b*a), (((c_2*cos_theta)+(b_2*a_2*cos_theta)+a_2*b_2))/d_2, ((c*((d_2*b)-a*(c*sin_theta-b*a*cos_theta))-b*(c*cos_theta+b*a*sin_theta)))/d_2, 0],
+                      [-b*sin_theta-c*a*cos_theta+c*a, (c*((c*a*sin_theta)-b*cos_theta)+b*(c*d_2-a*(-b*sin_theta-c*a*cos_theta)))/d_2, (b_2*cos_theta+c_2*a_2*cos_theta+c_2*d_2)/d_2, 0],
+                      [0,0,0,1]
+                      ]
+            
+            self.A = self.A @ self.M
 
         
     def mult_Points(self, points):
