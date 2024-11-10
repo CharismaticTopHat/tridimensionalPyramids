@@ -26,6 +26,7 @@ class Piramide:
         self.newDeg = lambda deg, inc_deg: (deg + inc_deg) % 360
         self.scale = [1.0,0.0,0.0]
         self.delta_scale = [0.0, 0.0, 0.0]
+        self.radius = 50.0
     
     def setPos(self, T):
         self.pos = T.copy()
@@ -46,16 +47,11 @@ class Piramide:
         self.delta_scale = deltaScale
 
     def update(self):
-        newx = self.pos[0] + self.delta_dir[0]
-        newz = self.pos[2] + self.delta_dir[2]
+        theta_rad = math.radians(self.theta)
+        
+        self.pos[0] = self.radius * math.cos(theta_rad) 
+        self.pos[2] = self.radius * math.sin(theta_rad) 
 
-        if (np.abs(newx) < 150) and (np.abs(newz) < 150):
-            self.pos[0] = newx
-            self.pos[2] = newz
-        else:
-            self.pos[0] = 0.0
-            self.pos[2] = 0.0
-        #print("Posición X",self.pos[0], "Posición Z:",self.pos[2])
         self.theta = self.newDeg(self.theta, self.delta_theta)
     
     #funcion usada para verificar el dibujado con primitivas OpenGL    
