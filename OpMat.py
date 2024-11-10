@@ -100,7 +100,7 @@ class OpMat:
             self.A = self.A @ self.M
 
         
-    def mult_Points(self, points):
+    def mult_points(self, points):
         pointsNew = [np.matmul(self.M, point) for point in points]
         pointsNew = [point[:-1] for point in pointsNew]
         return pointsNew

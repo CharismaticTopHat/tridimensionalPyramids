@@ -28,9 +28,9 @@ ZNEAR=1.0
 ZFAR=500.0
 #Variables para definir la posicion del observador
 #gluLookAt(EYE_X,EYE_Y,EYE_Z,CENTER_X,CENTER_Y,CENTER_Z,UP_X,UP_Y,UP_Z)
-EYE_X=10.0
-EYE_Y=10.0
-EYE_Z=10.0
+EYE_X=150.0
+EYE_Y=150.0
+EYE_Z=150.0
 CENTER_X=0
 CENTER_Y=0
 CENTER_Z=0
@@ -72,7 +72,7 @@ def Axis():
 def Init():
     screen = pygame.display.set_mode(
         (screen_width, screen_height), DOUBLEBUF | OPENGL)
-    pygame.display.set_caption("OpenGL: Ejes 3D")
+    pygame.display.set_caption("OpenGL: Polar 3D movement")
 
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -86,11 +86,18 @@ def Init():
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
 
+def InitObj():
+    sc = [10, 10, 10]
+    objeto1.setScale(sc)
+    objeto1.setDeltaDir([1.0, 0.0, 0.0])
+    objeto1.setDeltaDeg(1.0)
+
 Init()
+InitObj()
 
 done = False
 
-def display1():
+""" def display1():
     global deg
     op3D.push()
     op3D.rotate(deg,1.0,1.0,1.0)
@@ -103,20 +110,19 @@ def display1():
     op3D.translate(3.0, 0.0, 0.0)
     op3D.scale(0.5, 0.5, 0.5)
     objeto1.render()
-    op3D.pop()
-   
+    op3D.pop() """
 
 def display2():
     global deg
     glPushMatrix()
+    glTranslatef(objeto1.pos[0],0.0,objeto1.pos[2])
     glRotatef(deg, 1.0, 1.0, 1.0)
-    glTranslatef(2.0,0.0,0.0)
     glPushMatrix()
-    glScalef(2.0, 2.0, 2.0)
+    glScalef(17,17,17)
     objeto1.draw()
     glPopMatrix()
-    glTranslatef(3.0, 0.0, 0.0)
-    glScalef(0.5, 0.5, 0.5)
+    glTranslatef(objeto1.pos[0],0.0,objeto1.pos[2])
+    glScalef(5,5,5)
     objeto1.draw()
     glPopMatrix()
 
@@ -128,6 +134,7 @@ while not done:
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     Axis()
+    
     #display1()
     display2()
     
